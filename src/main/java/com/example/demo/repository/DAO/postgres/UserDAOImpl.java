@@ -34,13 +34,18 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void createUser(User user) throws Exception{
-        jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?, ?, ?, ?)",
-                UUIDGenerate.generateID(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getEmail(),
-                user.getTelephone(),
-                user.getCountry());
+        try {
+            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?, ?, ?, ?)",
+                    UUIDGenerate.generateID(),
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getEmail(),
+                    user.getTelephone(),
+                    user.getCountry());
+        }   catch (Exception e) {
+            throw new Exception("User already exist");
+        }
+
     }
 
     public void updateUser(String username, User user) throws Exception{

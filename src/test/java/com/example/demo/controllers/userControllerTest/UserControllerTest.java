@@ -68,39 +68,42 @@ public class UserControllerTest {
 
     @Test
     public void createUser5() throws Exception {
-        String user = userJsons[4];
+        Map<String, String> userMap = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        userMap.put("username", "SomeUsername");
+        userMap.put("password", "SomePassword1234");
+        userMap.put("email", "SomeEmail@example.com");
+        String user = mapper.writeValueAsString(userMap);
+
         mockMvc.perform(post("/user/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(user))
-                .andExpect(status().is(400));
+                .andExpect(status().is(201));
     }
 
-
     @Test
-    public void createUser6() throws Exception {
-        Map<String, String> map = new HashMap<>();
+    public void updateUser() throws Exception {
+        Map<String, String > map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
-//        map.put("username", "Kalbasa");
-//        map.put("password", "Password123");
-//        map.put("telephone", "+77083723603");
 
-        map.put("qwe", "qwe");
-        map.put("cffasd", "asdfsadfas");
-        map.put("trf", "qwe");
+        map.put("email", "SomeEmail@example.com");
+        map.put("telephone", "+35 134 35 35");
 
         String json = objectMapper.writeValueAsString(map);
 
-        mockMvc.perform(post("/user/create")
+        String username = "SomeUsername";
+        String wrongUsername = "baka";
+        mockMvc.perform(put("/user/update").param("username", username)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().is(201));
+                .andExpect(status().is(200));
     }
 
 
     @Test
     public void deleteUser() throws Exception {
-
-        mockMvc.perform(delete("/user/delete").param("username", "Kalbasa"))
+        String username = "Kalbasa";
+        mockMvc.perform(delete("/user/delete").param("username", username))
                 .andExpect(status().isOk());
     }
 
@@ -121,22 +124,5 @@ public class UserControllerTest {
         }
     }
 
-    @Test
-    public void updateUser() throws Exception {
-        Map<String, String > map = new HashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
 
-//        map.put("password", "Password1234");
-//        map.put("email", "Samvel@example.org");
-        map.put("telephone", "+374 555 35 35");
-
-        String json = objectMapper.writeValueAsString(map);
-
-        String username = "Samvel1234";
-        String wrongUsername = "baka";
-        mockMvc.perform(put("/user/update").param("username", username)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().is(200));
-    }
 }

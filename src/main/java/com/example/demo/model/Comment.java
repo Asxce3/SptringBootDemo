@@ -60,4 +60,8 @@ public class Comment {
     public void setScore(int score) {
         Score = score;
     }
+
+    public String toString() {
+        return "Comment uuid= " + uuid + ", personUuid= " + personUuid;
+    }
 }

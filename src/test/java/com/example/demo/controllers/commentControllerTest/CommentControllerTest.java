@@ -23,24 +23,24 @@ public class CommentControllerTest {
     MockMvc mockMvc;
 
 
-//   "{\"PersonUuid\":\"ad177f61-196e-4ccf-ae08-135ec2d4c7de\"}";
     @Test
         public void createCommentTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> map = new HashMap<>();
-// person : ad177f61-196e-4ccf-ae08-135ec2d4c7de
-// restaurant : 8805bb43-eea9-48a5-b287-07ad1d5fec4f
-        map.put("personUuid", "ad177f61-196e-4ccf-ae08-135ec2d4c7de");
-        map.put("restaurantUuid", "8805bb43-eea9-48a5-b287-07ad1d5fec4f");
-        map.put("comment", "Отличное заведение");
-        map.put("score", "5");
+        String userId = "8c692c41-85d1-4d73-977b-b2d8513dde17";
+        String restaurantId = "8805bb43-eea9-48a5-b287-07ad1d5fec4f";
+
+        map.put("personUuid", userId);
+        map.put("restaurantUuid", restaurantId);
+        map.put("comment", "Нормальное заведение");
+        map.put("score", "4");
 
         String comment = objectMapper.writeValueAsString(map);
 
         mockMvc.perform(post("/comment/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(comment))
-                .andExpect(status().is(404));
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
@@ -67,9 +67,10 @@ public class CommentControllerTest {
         Map<String, String> map = new HashMap<>();
 
         String comment = objectMapper.writeValueAsString(map);
+        String id = "20339129-ae57-47da-be0f-08b8326e8489";
 
         mockMvc.perform(delete("/comment/delete")
-                        .param("uuid", "43d9d0e8-d4ad-41a6-be54-820dba8f6789")
+                        .param("uuid", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(comment))
                 .andExpect(status().is(200));

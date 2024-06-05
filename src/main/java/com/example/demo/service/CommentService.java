@@ -40,4 +40,10 @@ public class CommentService {
     public ResponseEntity<?> deleteComment(UUID uuid) {
         return commentRepository.deleteComment(uuid);
     }
+
+    public ResponseEntity<?> deleteCommentByUserID(UUID uuid) {
+        return commentRepository.deleteCommentByUserId(uuid);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.UserEdit;
+import com.example.demo.model.Comment;
+import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.userUtils.UserUtils;
 import com.example.demo.model.User;
@@ -9,7 +10,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -19,6 +21,9 @@ public class UserService {
 
     @Autowired
     UserUtils userUtils;
+
+    @Autowired
+    CommentService commentService;
 
     public ResponseEntity<?> getUsers() {
         return repository.getUsers();
@@ -62,7 +67,19 @@ public class UserService {
     }
 
     public ResponseEntity<?> deleteUser(String username) {
-        return repository.deleteUser(username);
+
+            ResponseEntity<?> getUser = getUser(username);
+
+            if (getUser.getStatusCode().is4xxClientError()) {
+                return getUser;
+            }
+            User user = (User) getUser.getBody();
+            UUID userId = user.getUUID();
+
+            commentService.deleteCommentByUserID(userId);
+
+            return repository.deleteUser(username);
+
 
     }
 

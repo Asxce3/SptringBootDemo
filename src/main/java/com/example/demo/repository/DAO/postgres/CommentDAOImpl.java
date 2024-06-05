@@ -26,12 +26,16 @@ public class CommentDAOImpl  implements CommentDAO {
 
     @Override
     public void createComment(Comment comment) throws Exception{
-        jdbcTemplate.update("INSERT INTO comment VALUES (?, ?, ?, ?, ?)",
-                UUIDGenerate.generateID(),
-                comment.getPersonUuid(),
-                comment.getRestaurantUuid(),
-                comment.getComment(),
-                comment.getScore());
+        try {
+            jdbcTemplate.update("INSERT INTO comment VALUES (?, ?, ?, ?, ?)",
+                    UUIDGenerate.generateID(),
+                    comment.getPersonUuid(),
+                    comment.getRestaurantUuid(),
+                    comment.getComment(),
+                    comment.getScore());
+        }   catch (Exception e) {
+            throw new Exception("User already post comment");
+        }
     }
 
     @Override
@@ -47,10 +51,19 @@ public class CommentDAOImpl  implements CommentDAO {
 
     @Override
     public void deleteComment(UUID uuid) throws Exception {
+
         int i = jdbcTemplate.update("DELETE FROM comment WHERE uuid = ?", uuid);
 
         if (i != 1) {
             throw new Exception("Comment not found");
+        }
+    }
+
+    public void deleteCommentByUserId(UUID uuid) throws Exception {
+        int i = jdbcTemplate.update("DELETE FROM comment WHERE personuuid = ?", uuid);
+
+        if (i != 1) {
+            throw new Exception("User dont have comment to delete");
         }
     }
 }

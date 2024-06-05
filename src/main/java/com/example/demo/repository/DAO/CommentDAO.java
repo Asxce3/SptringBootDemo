@@ -14,4 +14,6 @@ public interface CommentDAO {
 
     void deleteComment (UUID uuid) throws Exception;
 
+    void deleteCommentByUserId (UUID uuid) throws Exception;
+
 }
