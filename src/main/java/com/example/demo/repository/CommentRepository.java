@@ -2,7 +2,6 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Comment;
 import com.example.demo.repository.DAO.CommentDAO;
-import com.example.demo.repository.DAO.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -54,10 +53,10 @@ public class CommentRepository {
         }
     }
 
-    public ResponseEntity<?> updateComment(UUID uuid, Comment comment) {
+    public ResponseEntity<?> updateComment(UUID id, Comment comment) {
 
         try {
-            commentDAO.updateComment(uuid, comment);
+            commentDAO.updateComment(id, comment);
             return ResponseEntity.status(200).build();
 
         }   catch (CannotGetJdbcConnectionException e) {
@@ -72,10 +71,10 @@ public class CommentRepository {
         }
     }
 
-    public ResponseEntity<?> deleteComment(UUID uuid) {
+    public ResponseEntity<?> deleteComment(UUID id) {
 
         try {
-            commentDAO.deleteComment(uuid);
+            commentDAO.deleteComment(id);
             return ResponseEntity.status(200).build();
 
         }   catch (CannotGetJdbcConnectionException e) {
@@ -90,10 +89,10 @@ public class CommentRepository {
         }
     }
 
-    public ResponseEntity<?> deleteCommentByUserId(UUID uuid) {
+    public ResponseEntity<?> deleteCommentByUserId(UUID id) {
 
         try {
-            commentDAO.deleteCommentByUserId(uuid);
+            commentDAO.deleteCommentByUserId(id);
             return ResponseEntity.status(200).build();
 
         }   catch (CannotGetJdbcConnectionException e) {

@@ -27,13 +27,14 @@ public class CommentControllerTest {
         public void createCommentTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> map = new HashMap<>();
-        String userId = "8c692c41-85d1-4d73-977b-b2d8513dde17";
-        String restaurantId = "8805bb43-eea9-48a5-b287-07ad1d5fec4f";
 
-        map.put("personUuid", userId);
-        map.put("restaurantUuid", restaurantId);
-        map.put("comment", "Нормальное заведение");
-        map.put("score", "4");
+        String userId = "e1322807-e5c6-45bb-bf9d-89f84b5b745c";
+        String restaurantId = "33066665-fecd-46d8-873b-cb7498e9a55b";
+
+        map.put("person_id", userId);
+        map.put("restaurantId", restaurantId);
+        map.put("comment", "Ужаснове заведение");
+        map.put("score", "1");
 
         String comment = objectMapper.writeValueAsString(map);
 
@@ -67,10 +68,10 @@ public class CommentControllerTest {
         Map<String, String> map = new HashMap<>();
 
         String comment = objectMapper.writeValueAsString(map);
-        String id = "20339129-ae57-47da-be0f-08b8326e8489";
+        String id = "c219f18a-2cee-4bd3-b87f-c4e456c971e9";
 
         mockMvc.perform(delete("/comment/delete")
-                        .param("uuid", id)
+                        .param("id", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(comment))
                 .andExpect(status().is(200));

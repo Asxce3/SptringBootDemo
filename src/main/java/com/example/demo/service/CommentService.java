@@ -30,19 +30,19 @@ public class CommentService {
 
     }
 
-    public ResponseEntity<?> updateComment(UUID uuid, Comment comment) {
+    public ResponseEntity<?> updateComment(UUID id, Comment comment) {
         if(commentUtils.checkScore(comment.getScore())) {
-            return commentRepository.updateComment(uuid, comment);
+            return commentRepository.updateComment(id, comment);
         }
         return ResponseEntity.badRequest().body("Данные введены не корректно");
     }
 
-    public ResponseEntity<?> deleteComment(UUID uuid) {
-        return commentRepository.deleteComment(uuid);
+    public ResponseEntity<?> deleteComment(UUID id) {
+        return commentRepository.deleteComment(id);
     }
 
-    public ResponseEntity<?> deleteCommentByUserID(UUID uuid) {
-        return commentRepository.deleteCommentByUserId(uuid);
+    public ResponseEntity<?> deleteCommentByUserID(UUID userId) {
+        return commentRepository.deleteCommentByUserId(userId);
     }
 
 

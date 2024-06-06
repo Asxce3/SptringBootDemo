@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class UserDAOImpl implements UserDAO {
@@ -22,8 +23,8 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
-    public User getUser(String username) throws Exception {
-        User user = jdbcTemplate.query("SELECT * FROM Person WHERE username = ?",new Object[]{username},
+    public User getUser(UUID id) throws Exception {
+        User user = jdbcTemplate.query("SELECT * FROM Person WHERE id = ?",new Object[]{id},
                         new BeanPropertyRowMapper<>(User.class))
                 .stream().findAny().orElse(null);
 
@@ -48,19 +49,19 @@ public class UserDAOImpl implements UserDAO {
 
     }
 
-    public void updateUser(String username, User user) throws Exception{
+    public void updateUser(UUID id, User user) throws Exception{
 
         jdbcTemplate.update("UPDATE Person SET email = ?, telephone = ?, country = ?" +
-                        " WHERE username = ?",
+                        " WHERE id = ?",
                 user.getEmail(),
                 user.getTelephone(),
                 user.getCountry(),
-                username);
+                id);
 
     }
 
-    public void deleteUser(String username) throws Exception{
-        int i = jdbcTemplate.update("DELETE FROM Person WHERE username = ?", username);
+    public void deleteUser(UUID id) throws Exception{
+        int i = jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
         if (i != 1) {
             throw new Exception("User not found");
         }

@@ -18,22 +18,23 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping("/get-many")
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<?> getMany(){
         return commentService.getComments();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody() Comment comment){
+    public ResponseEntity<?> create(@RequestBody() Comment comment){
+        System.out.println(comment);
         return commentService.createComment(comment);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestParam() UUID uuid, @RequestBody Comment comment) {
-        return commentService.updateComment(uuid, comment);
+    public ResponseEntity<?> update(@RequestParam() UUID id, @RequestBody Comment comment) {
+        return commentService.updateComment(id, comment);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam() UUID uuid ){
-        return commentService.deleteComment(uuid);
+    public ResponseEntity<?> delete(@RequestParam() UUID id ){
+        return commentService.deleteComment(id);
     }
 }

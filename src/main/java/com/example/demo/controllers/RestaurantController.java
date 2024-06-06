@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -14,28 +16,28 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/get-many")
-    public ResponseEntity<?> getUsers(){
+    public ResponseEntity<?> getMany(){
         return restaurantService.getRestaurants();
     }
 
     @GetMapping("/get-one")
-    public ResponseEntity<?> getUser(@RequestParam String name){
-        return restaurantService.getRestaurant(name);
+    public ResponseEntity<?> getOne(@RequestParam UUID id){
+        return restaurantService.getRestaurant(id);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createUser(@RequestBody() Restaurant restaurant){
+    public ResponseEntity<?> create(@RequestBody() Restaurant restaurant){
         return restaurantService.createRestaurant(restaurant);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestParam() String username, @RequestBody Restaurant restaurant) {
-        return restaurantService.updateRestaurant(username, restaurant);
+    public ResponseEntity<?> update(@RequestParam() UUID id, @RequestBody Restaurant restaurant) {
+        return restaurantService.updateRestaurant(id, restaurant);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestParam() String name ){
-        return restaurantService.deleteRestaurant(name);
+    public ResponseEntity<?> delete(@RequestParam() UUID id){
+        return restaurantService.deleteRestaurant(id);
     }
 
 }

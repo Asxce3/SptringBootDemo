@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,58 +22,25 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    String[] userJsons = {
-            "{\"username\":\"Alice123\",\"password\":\"Password1\",\"telephone\":\"+1 202-555-0178\",\"email\":\"alice@example.com\"}",
-            "{\"username\":\"Bob_456\",\"password\":\"SecurePass2\",\"email\":\"bob_456@example.org\"}",
-            "{\"username\":\"Charlie_789\",\"password\":\"CharliePass3\",\"telephone\":\"+39 06 1234 5678\",\"email\":\"charlie_789@example.net\"}",
-            "{\"username\":\"Diana.C\",\"password\":\"DianaPass4\",\"telephone\":\"+7 495 123-45-67\"}",
-            "{\"username\":\"Edward_007\",\"password\":\"EdwardPass5\"}"
-    };
-
-
     @Test
-    public void createUser1() throws Exception {
-        String user = userJsons[0];
-        mockMvc.perform(post("/user/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user))
-                .andExpect(status().is(201));
+    public void getOneTest() throws Exception {
+
+        String userId = "72163e82-824e-41e7-9457-e1ae3b625ddf";
+
+        mockMvc.perform(get("/user/get-one").param("id", userId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void createUser2() throws Exception {
-        String user = userJsons[1];
-        mockMvc.perform(post("/user/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user))
-                .andExpect(status().is(201));
-    }
-
-    @Test
-    public void createUser3() throws Exception {
-        String user = userJsons[2];
-        mockMvc.perform(post("/user/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user))
-                .andExpect(status().is(201));
-    }
-
-    @Test
-    public void createUser4() throws Exception {
-        String user = userJsons[3];
-        mockMvc.perform(post("/user/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user))
-                .andExpect(status().is(201));
-    }
-
-    @Test
-    public void createUser5() throws Exception {
+    public void createTest() throws Exception {
         Map<String, String> userMap = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        userMap.put("username", "SomeUsername");
-        userMap.put("password", "SomePassword1234");
-        userMap.put("email", "SomeEmail@example.com");
+
+        userMap.put("username", "Mirana");
+        userMap.put("password", "Mirana228");
+        userMap.put("email", "Mirana228@gmail.com");
+        userMap.put("telephone", "87055351230");
         String user = mapper.writeValueAsString(userMap);
 
         mockMvc.perform(post("/user/create")
@@ -82,7 +50,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateUser() throws Exception {
+    public void updateTest() throws Exception {
         Map<String, String > map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -91,38 +59,22 @@ public class UserControllerTest {
 
         String json = objectMapper.writeValueAsString(map);
 
-        String username = "SomeUsername";
-        String wrongUsername = "baka";
-        mockMvc.perform(put("/user/update").param("username", username)
+        String userId = "001798aa-ceca-484e-8b90-81808c7650bd";
+        mockMvc.perform(put("/user/update").param("id", userId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().is(200));
     }
 
-
     @Test
-    public void deleteUser() throws Exception {
-        String username = "Kalbasa";
-        mockMvc.perform(delete("/user/delete").param("username", username))
+    public void deleteTest() throws Exception {
+        String id = "001798aa-ceca-484e-8b90-81808c7650bd";
+        mockMvc.perform(delete("/user/delete").param("id", id))
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void deleteUsers() throws Exception {
 
-        String[] users = {
-                "Alice123",
-                "Bob_456",
-                "Charlie_789",
-                "Diana.C",
-                "Edward_007"
-        };
 
-        for (String username : users) {
-            mockMvc.perform(delete("/user/delete").param("username", username))
-                    .andExpect(status().isOk());
-        }
-    }
 
 
 }

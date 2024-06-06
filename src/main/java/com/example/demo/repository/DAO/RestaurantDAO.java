@@ -3,16 +3,17 @@ package com.example.demo.repository.DAO;
 import com.example.demo.model.Restaurant;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface RestaurantDAO {
 
     List<Restaurant> getRestaurants();
 
-    Restaurant getRestaurant(String name) throws Exception;
+    Restaurant getRestaurant(UUID id) throws Exception;
 
     void createRestaurant(Restaurant restaurant);
 
-    void updateRestaurant(String name, Restaurant restaurant) throws Exception;
+    void updateRestaurant(UUID id, Restaurant restaurant) throws Exception;
 
-    void deleteRestaurant(String name) throws Exception;
+    void deleteRestaurant(UUID id) throws Exception;
 }

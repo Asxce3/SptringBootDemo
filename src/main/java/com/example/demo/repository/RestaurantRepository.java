@@ -8,6 +8,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class RestaurantRepository {
@@ -30,9 +31,9 @@ public class RestaurantRepository {
         }
     }
 
-    public ResponseEntity<?> getRestaurant(String name) {
+    public ResponseEntity<?> getRestaurant(UUID id) {
         try {
-            Restaurant restaurant = restaurantDAO.getRestaurant(name);
+            Restaurant restaurant = restaurantDAO.getRestaurant(id);
             return ResponseEntity.status(200).body(restaurant);
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -66,9 +67,9 @@ public class RestaurantRepository {
 
     }
 
-    public ResponseEntity<?> updateRestaurant(String name, Restaurant restaurant) {
+    public ResponseEntity<?> updateRestaurant(UUID id, Restaurant restaurant) {
         try {
-            restaurantDAO.updateRestaurant(name, restaurant);
+            restaurantDAO.updateRestaurant(id, restaurant);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -84,9 +85,9 @@ public class RestaurantRepository {
 
     }
 
-    public ResponseEntity<?> deleteRestaurant(String name) {
+    public ResponseEntity<?> deleteRestaurant(UUID id) {
         try {
-            restaurantDAO.deleteRestaurant(name);
+            restaurantDAO.deleteRestaurant(id);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {

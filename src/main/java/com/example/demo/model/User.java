@@ -8,7 +8,7 @@ import java.util.UUID;
 //@Document("Users")
 public class User {
     @Id
-    private UUID uuid;
+    private UUID id;
 
     private String username;
     private String password;
@@ -27,11 +27,11 @@ public class User {
     public User(){
     }
 
-    public void setUUID(UUID uuid) {
-        this.uuid = uuid;
+    public void setId(UUID id) {
+        this.id = id;
     }
-    public UUID getUUID() {
-       return uuid;
+    public UUID getId() {
+       return id;
     }
     public String getUsername() {
         return username;
@@ -74,7 +74,7 @@ public class User {
     }
 
     public String toString() {
-        return "\nuuid : " + uuid + "\nusername : " + username + "\npassword : " + password
+        return "\nid : " + id + "\nusername : " + username + "\npassword : " + password
                 + "\nemail : " + email + "\ntelephone : " + telephone + "\ncountry : " + country;
     }
 

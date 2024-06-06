@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class RestaurantDAOImpl implements RestaurantDAO {
@@ -24,10 +25,10 @@ public class RestaurantDAOImpl implements RestaurantDAO {
     }
 
     @Override
-    public Restaurant getRestaurant(String name) throws Exception {
+    public Restaurant getRestaurant(UUID id) throws Exception {
         Restaurant restaurant = jdbcTemplate.query
-                ("SELECT * FROM restaurant WHERE name = ?",
-                        new Object[]{name},
+                ("SELECT * FROM restaurant WHERE id = ?",
+                        new Object[]{id},
                         new BeanPropertyRowMapper<>(Restaurant.class))
                 .stream().findFirst().orElse(null);
 
@@ -47,9 +48,10 @@ public class RestaurantDAOImpl implements RestaurantDAO {
     }
 
     @Override
-    public void updateRestaurant(String name, Restaurant restaurant) throws Exception {
-        int i = jdbcTemplate.update("UPDATE restaurant SET name = ?",
-                restaurant.getName()
+    public void updateRestaurant(UUID id, Restaurant restaurant) throws Exception {
+        int i = jdbcTemplate.update("UPDATE restaurant SET name = ? WHERE id = ?",
+                restaurant.getName(),
+                id
         );
 
         if (i != 1) {
@@ -58,8 +60,8 @@ public class RestaurantDAOImpl implements RestaurantDAO {
     }
 
     @Override
-    public void deleteRestaurant(String name) throws Exception {
-        int i = jdbcTemplate.update("DELETE FROM restaurant WHERE name = ?", name);
+    public void deleteRestaurant(UUID id) throws Exception {
+        int i = jdbcTemplate.update("DELETE FROM restaurant WHERE id = ?", id);
 
         if (i != 1) {
             throw new Exception("Restaurant not found");

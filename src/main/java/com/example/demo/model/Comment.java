@@ -6,43 +6,43 @@ import java.util.UUID;
 
 public class Comment {
     @Id
-    private UUID uuid;
-    private UUID personUuid;
-    private UUID restaurantUuid;
+    private UUID id;
+    private UUID personId;
+    private UUID restaurantId;
     private String comment;
-    private int Score;
+    private int score;
 
-    public Comment(UUID personUuid, UUID restaurantUuid, String comment, int score) {
-        this.personUuid = personUuid;
-        this.restaurantUuid = restaurantUuid;
+    public Comment(UUID personId, UUID restaurantId, String comment, int score) {
+        this.personId = personId;
+        this.restaurantId = restaurantId;
         this.comment = comment;
-        this.Score = score;
+        this.score = score;
     }
 
     public Comment() {}
 
-    public UUID getUuid() {
-        return uuid;
+    public UUID getId() {
+        return id;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UUID getPersonUuid() {
-        return personUuid;
+    public UUID getPersonId() {
+        return personId;
     }
 
-    public void setPersonUuid(UUID personUuid) {
-        this.personUuid = personUuid;
+    public void setPersonId(UUID personId) {
+        this.personId = personId;
     }
 
-    public UUID getRestaurantUuid() {
-        return restaurantUuid;
+    public UUID getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setRestaurantUuid(UUID restaurantUuid) {
-        this.restaurantUuid = restaurantUuid;
+    public void setRestaurantId(UUID restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public String getComment() {
@@ -54,14 +54,14 @@ public class Comment {
     }
 
     public int getScore() {
-        return Score;
+        return score;
     }
 
     public void setScore(int score) {
-        Score = score;
+        this.score = score;
     }
 
     public String toString() {
-        return "Comment uuid= " + uuid + ", personUuid= " + personUuid;
+        return "\nComment id= " + id + "\npersonId= " + personId + "\nrestaurantId= " + restaurantId + "\ncomment= " + comment;
     }
 }

@@ -10,10 +10,10 @@ public interface CommentDAO {
 
     void createComment (Comment comment) throws Exception;
 
-    void updateComment (UUID uuid, Comment comment) throws Exception;
+    void updateComment (UUID id, Comment comment) throws Exception;
 
-    void deleteComment (UUID uuid) throws Exception;
+    void deleteComment (UUID id) throws Exception;
 
-    void deleteCommentByUserId (UUID uuid) throws Exception;
+    void deleteCommentByUserId (UUID id) throws Exception;
 
 }

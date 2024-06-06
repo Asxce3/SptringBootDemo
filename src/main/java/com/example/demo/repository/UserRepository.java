@@ -8,6 +8,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -31,9 +32,9 @@ public class UserRepository {
         }
     }
 
-    public ResponseEntity<?> getUser(String username) {
+    public ResponseEntity<?> getUser(UUID id) {
         try {
-            User user = userDAO.getUser(username);
+            User user = userDAO.getUser(id);
             return ResponseEntity.status(200).body(user);
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -67,9 +68,9 @@ public class UserRepository {
 
     }
 
-    public ResponseEntity<?> updateUser(String username, User user) {
+    public ResponseEntity<?> updateUser(UUID id, User user) {
         try {
-            userDAO.updateUser(username, user);
+            userDAO.updateUser(id, user);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -85,9 +86,9 @@ public class UserRepository {
 
     }
 
-    public ResponseEntity<?> deleteUser(String username) {
+    public ResponseEntity<?> deleteUser(UUID id) {
         try {
-            userDAO.deleteUser(username);
+            userDAO.deleteUser(id);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {

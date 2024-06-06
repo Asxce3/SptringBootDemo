@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 
 @Component
 public class RestaurantService {
@@ -17,8 +19,8 @@ public class RestaurantService {
         return repository.getRestaurants();
     }
 
-    public ResponseEntity<?> getRestaurant(String name) {
-        return repository.getRestaurant(name);
+    public ResponseEntity<?> getRestaurant(UUID id) {
+        return repository.getRestaurant(id);
     }
 
     public ResponseEntity<?> createRestaurant(Restaurant restaurant) {
@@ -26,12 +28,12 @@ public class RestaurantService {
 
     }
 
-    public ResponseEntity<?> updateRestaurant(String name, Restaurant restaurant) {
-        return repository.updateRestaurant(name, restaurant);
+    public ResponseEntity<?> updateRestaurant(UUID id, Restaurant restaurant) {
+        return repository.updateRestaurant(id, restaurant);
     }
 
-    public ResponseEntity<?> deleteRestaurant(String name) {
-        return repository.deleteRestaurant(name);
+    public ResponseEntity<?> deleteRestaurant(UUID id) {
+        return repository.deleteRestaurant(id);
     }
 
 }

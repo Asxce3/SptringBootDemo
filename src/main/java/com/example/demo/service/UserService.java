@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Comment;
-import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.userUtils.UserUtils;
 import com.example.demo.model.User;
@@ -10,7 +8,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -29,9 +26,9 @@ public class UserService {
         return repository.getUsers();
     }
 
-    public ResponseEntity<?> getUser(String username) {
+    public ResponseEntity<?> getUser(UUID id) {
 
-        return repository.getUser(username);
+        return repository.getUser(id);
 
     }
 
@@ -45,16 +42,16 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> updateUser(String username, User user) {
+    public ResponseEntity<?> updateUser(UUID id, User user) {
         System.out.println(user);
         try {
-            HttpStatusCode code = getUser(username).getStatusCode();
+            HttpStatusCode code = getUser(id).getStatusCode();
             if (code.is4xxClientError()) {
                 return ResponseEntity.badRequest().body("Такой пользователь не существует");
             }
             if (userUtils.validateSocietyFields(user)) {
                 userUtils.setTelephoneUser(user);
-                return repository.updateUser(username, user);
+                return repository.updateUser(id, user);
 
             }
             return ResponseEntity.badRequest().body("Данные введены не корректно");
@@ -66,19 +63,19 @@ public class UserService {
 
     }
 
-    public ResponseEntity<?> deleteUser(String username) {
+    public ResponseEntity<?> deleteUser(UUID id) {
 
-            ResponseEntity<?> getUser = getUser(username);
+            ResponseEntity<?> getUser = getUser(id);
 
             if (getUser.getStatusCode().is4xxClientError()) {
                 return getUser;
             }
             User user = (User) getUser.getBody();
-            UUID userId = user.getUUID();
+            UUID userId = user.getId();
 
             commentService.deleteCommentByUserID(userId);
 
-            return repository.deleteUser(username);
+            return repository.deleteUser(id);
 
 
     }
