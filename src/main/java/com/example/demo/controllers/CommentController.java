@@ -1,9 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.Comment;
-import com.example.demo.model.Restaurant;
 import com.example.demo.service.CommentService;
-import com.example.demo.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,6 @@ public class CommentController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody() Comment comment){
-        System.out.println(comment);
         return commentService.createComment(comment);
     }
 

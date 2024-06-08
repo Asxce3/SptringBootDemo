@@ -37,10 +37,10 @@ public class UserControllerTest {
         Map<String, String> userMap = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
 
-        userMap.put("username", "Mirana");
-        userMap.put("password", "Mirana228");
-        userMap.put("email", "Mirana228@gmail.com");
-        userMap.put("telephone", "87055351230");
+        userMap.put("username", "Nikolay");
+        userMap.put("password", "NikolayPass1234");
+        userMap.put("email", "Nikolay@gmail.com");
+        userMap.put("telephone", "+77083723603");
         String user = mapper.writeValueAsString(userMap);
 
         mockMvc.perform(post("/user/create")

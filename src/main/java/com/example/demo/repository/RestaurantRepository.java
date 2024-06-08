@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Restaurant;
+import com.example.demo.model.RestaurantRating;
 import com.example.demo.repository.DAO.RestaurantDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,24 @@ public class RestaurantRepository {
         try {
             Restaurant restaurant = restaurantDAO.getRestaurant(id);
             return ResponseEntity.status(200).body(restaurant);
+
+        } catch(CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }  catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+
+    }
+
+    public ResponseEntity<?> getRatingById(UUID restaurantId) {
+        try {
+            RestaurantRating rating = restaurantDAO.getRatingById(restaurantId);
+            return ResponseEntity.status(200).body(rating);
 
         } catch(CannotGetJdbcConnectionException e) {
 
@@ -84,6 +103,25 @@ public class RestaurantRepository {
         }
 
     }
+
+    public ResponseEntity<?> updateRatingRestaurant(RestaurantRating rating) {
+        try {
+            restaurantDAO.updateRatingRestaurant(rating);
+            return ResponseEntity.status(200).build();
+
+        } catch(CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }  catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+
+    }
+
 
     public ResponseEntity<?> deleteRestaurant(UUID id) {
         try {

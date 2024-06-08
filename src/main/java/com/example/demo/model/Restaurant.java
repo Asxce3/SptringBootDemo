@@ -8,6 +8,8 @@ public class Restaurant {
     @Id
     private UUID id;
     private String name;
+    private double rating;
+    private int countRatings;
 
     public Restaurant(String name) {
         this.name = name;
@@ -15,6 +17,11 @@ public class Restaurant {
 
     public Restaurant() {
     }
+
+    public String toString() {
+        return "id : " + id + "\nname : " + name ;
+    }
+
 
     public UUID getId() {
         return id;
@@ -30,5 +37,21 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public int getCountRatings() {
+        return countRatings;
+    }
+
+    public void setCountRatings(int countRatings) {
+        this.countRatings = countRatings;
     }
 }

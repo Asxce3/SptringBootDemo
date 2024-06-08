@@ -27,7 +27,7 @@ public class RestaurantControllerTest {
         Map<String, String> map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        map.put("name", "KFC");
+        map.put("name", "Burger King");
         String json = objectMapper.writeValueAsString(map);
 
         mockMvc.perform(post("/restaurant/create")

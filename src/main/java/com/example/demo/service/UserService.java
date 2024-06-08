@@ -76,8 +76,6 @@ public class UserService {
             commentService.deleteCommentByUserID(userId);
 
             return repository.deleteUser(id);
-
-
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.demo.model.Comment;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.commentUtils.CommentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,9 @@ import java.util.UUID;
 
 @Component
 public class CommentService {
+
+    @Autowired
+    RestaurantService restaurantService;
 
     @Autowired
     CommentRepository commentRepository;
@@ -24,7 +28,16 @@ public class CommentService {
 
     public ResponseEntity<?> createComment(Comment comment) {
         if(commentUtils.checkScore(comment.getScore())) {
-            return commentRepository.createComment(comment);
+
+            UUID restaurantId = comment.getRestaurantId();
+            ResponseEntity<?> response = commentRepository.createComment(comment);
+
+            HttpStatusCode code = response.getStatusCode();
+
+            if(code.is2xxSuccessful()) {
+                restaurantService.updateRatingRestaurant(restaurantId, comment.getScore());
+            }
+            return response;
         }
         return ResponseEntity.badRequest().body("Данные введены не корректно");
 
@@ -44,6 +57,7 @@ public class CommentService {
     public ResponseEntity<?> deleteCommentByUserID(UUID userId) {
         return commentRepository.deleteCommentByUserId(userId);
     }
+
 
 
 }

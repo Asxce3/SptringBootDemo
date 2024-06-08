@@ -5,6 +5,7 @@ import com.example.demo.repository.DAO.CommentDAO;
 import com.example.demo.repository.DAO.UUIDGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -35,12 +36,15 @@ public class CommentDAOImpl implements CommentDAO {
                     comment.getComment(),
                     comment.getScore());
 
-        } catch (DataIntegrityViolationException e) {
-            throw new Exception("Fields don`t be null");
-
-        } catch (Exception e) {
+        } catch (DuplicateKeyException e) {
             e.printStackTrace();
-//            throw new Exception("User already post comment");
+
+            throw new Exception("User already post comment");
+
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+//            ПРИ НЕ ПРАВИЛЬНО ВВЕДЕННЫХ ДАННЫХ ВЫБРАСЫВАЕТ ЭТУ ОШИБКУ
+            throw new Exception("Some fields are empty");
         }
     }
 
@@ -66,7 +70,7 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     public void deleteCommentByUserId(UUID personId) throws Exception {
-        int i = jdbcTemplate.update("DELETE FROM comment WHERE personid = ?", personId);
+        int i = jdbcTemplate.update("DELETE FROM comment WHERE person_id = ?", personId);
 
         if (i != 1) {
             throw new Exception("User dont have comment to delete");

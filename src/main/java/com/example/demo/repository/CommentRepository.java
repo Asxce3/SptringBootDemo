@@ -47,7 +47,6 @@ public class CommentRepository {
             return ResponseEntity.status(500).body(e.getMessage());
 
         }   catch (Exception e) {
-
             e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }
@@ -61,12 +60,10 @@ public class CommentRepository {
 
         }   catch (CannotGetJdbcConnectionException e) {
 
-            e.printStackTrace();
             return ResponseEntity.status(500).body(e.getMessage());
 
         }   catch (Exception e) {
 
-            e.printStackTrace();
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
