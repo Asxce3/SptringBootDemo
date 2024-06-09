@@ -20,14 +20,21 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 
     @Override
     public List<Restaurant> getRestaurants() {
+        String sql = "SELECT restaurant.id, restaurant.name, " +
+                        "restaurant_rating.rating, restaurant_rating.count_ratings " +
+                "FROM restaurant " +
+                "INNER JOIN restaurant_rating " +
+                "ON restaurant.id = restaurant_rating.restaurant_id";
+
         List<Restaurant> restaurants = jdbcTemplate.query
-                ("SELECT * FROM restaurant", new BeanPropertyRowMapper<>(Restaurant.class));
+                (sql, new BeanPropertyRowMapper<>(Restaurant.class));
 
         return restaurants;
     }
 
     @Override
     public RestaurantRating getRatingById(UUID restaurantId) throws Exception{
+
         RestaurantRating restaurantRating = jdbcTemplate.query
                 ("SELECT * FROM restaurant_rating WHERE restaurant_id = ?",
                         new Object[]{restaurantId},
@@ -43,9 +50,16 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 
     @Override
     public Restaurant getRestaurant(UUID id) throws Exception {
+        String sql = "SELECT restaurant.id, restaurant.name, " +
+                "restaurant_rating.rating, restaurant_rating.count_ratings " +
+                "FROM restaurant " +
+                "INNER JOIN restaurant_rating " +
+                "ON restaurant.id = restaurant_rating.restaurant_id " +
+                "WHERE restaurant.id = ?";
+
         try {
             Restaurant restaurant = jdbcTemplate.query
-                    ("SELECT * FROM restaurant WHERE id = ?",
+                    (sql,
                             new Object[]{id},
                             new BeanPropertyRowMapper<>(Restaurant.class))
             .stream().findFirst().orElse(null);
