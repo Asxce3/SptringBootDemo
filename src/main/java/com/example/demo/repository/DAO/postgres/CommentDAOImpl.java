@@ -1,7 +1,7 @@
 package com.example.demo.repository.DAO.postgres;
 
 import com.example.demo.model.Comment;
-import com.example.demo.repository.DAO.CommentDAO;
+import com.example.demo.repository.DAO.ObjectDAO;
 import com.example.demo.repository.DAO.UUIDGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,20 +14,29 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class CommentDAOImpl implements CommentDAO {
+public class CommentDAOImpl implements ObjectDAO<Comment>, {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Comment> getComments() {
+    public List<Comment> getMany() {
         List<Comment> comments = jdbcTemplate.query
                 ("SELECT * FROM comment", new BeanPropertyRowMapper<>(Comment.class));
         return comments;
     }
 
     @Override
-    public void createComment(Comment comment) throws Exception{
+    public Comment getOne(UUID id) throws Exception{
+        Comment comment = jdbcTemplate.query
+                ("SELECT * FROM comment WHERE id = ?",
+                        new Object[]{id},
+                        new BeanPropertyRowMapper<>(Comment.class)).stream().findAny().orElse(null);
+        return comment;
+    }
+
+    @Override
+    public void create(Comment comment) throws Exception{
         try {
             jdbcTemplate.update("INSERT INTO comment VALUES (?, ?, ?, ?, ?)",
                     UUIDGenerate.generateID(),
@@ -49,7 +58,7 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     @Override
-    public void updateComment(UUID id, Comment comment) throws Exception {
+    public void update(UUID id, Comment comment) throws Exception {
         int i = jdbcTemplate.update("UPDATE comment SET comment = ?, score = ? WHERE id = ?",
                 comment.getComment(),
                 comment.getScore(), id);
@@ -60,7 +69,7 @@ public class CommentDAOImpl implements CommentDAO {
     }
 
     @Override
-    public void deleteComment(UUID id) throws Exception {
+    public void delete(UUID id) throws Exception {
 
         int i = jdbcTemplate.update("DELETE FROM comment WHERE id = ?", id);
 

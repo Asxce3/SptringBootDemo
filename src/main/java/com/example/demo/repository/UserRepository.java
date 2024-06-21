@@ -1,7 +1,8 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.User;
-import com.example.demo.repository.DAO.UserDAO;
+import com.example.demo.repository.DAO.ObjectDAO;
+import com.example.demo.repository.DAO.postgres.UserDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -14,11 +15,11 @@ import java.util.UUID;
 @Component
 public class UserRepository {
     @Autowired
-    UserDAO userDAO;
+    ObjectDAO<User> userDAO;
 
     public ResponseEntity<?> getUsers(){
         try {
-            List<User> users = userDAO.getUsers();
+            List<User> users = userDAO.getMany();
             return ResponseEntity.status(200).body(users);
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -34,7 +35,7 @@ public class UserRepository {
 
     public ResponseEntity<?> getUser(UUID id) {
         try {
-            User user = userDAO.getUser(id);
+            User user = userDAO.getOne(id);
             return ResponseEntity.status(200).body(user);
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -52,7 +53,7 @@ public class UserRepository {
 
     public ResponseEntity<?> createUser(User user) {
         try {
-            userDAO.createUser(user);
+            userDAO.create(user);
             return ResponseEntity.status(201).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -70,7 +71,7 @@ public class UserRepository {
 
     public ResponseEntity<?> updateUser(UUID id, User user) {
         try {
-            userDAO.updateUser(id, user);
+            userDAO.update(id, user);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -88,7 +89,7 @@ public class UserRepository {
 
     public ResponseEntity<?> deleteUser(UUID id) {
         try {
-            userDAO.deleteUser(id);
+            userDAO.delete(id);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {

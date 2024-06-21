@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Comment;
-import com.example.demo.repository.DAO.CommentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
