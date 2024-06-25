@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -20,20 +21,16 @@ public class UserDAOImpl implements ObjectDAO<User> {
 
     @Override
     public List<User> getMany() {
-        List<User> users = jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(User.class));
-        return users;
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(User.class));
     }
 
     @Override
-    public User getOne(UUID id) throws Exception {
-        User user = jdbcTemplate.query("SELECT * FROM Person WHERE id = ?",new Object[]{id},
-                        new BeanPropertyRowMapper<>(User.class))
-                .stream().findAny().orElse(null);
-
-        if (user == null) {
-            throw new Exception("User not found");
-        }
-        return user;
+    public Optional<User> getOne(UUID id) throws Exception {
+        return jdbcTemplate.query
+                ("SELECT * FROM Person WHERE id = ?",
+                        new Object[]{id},
+                        new BeanPropertyRowMapper<>(User.class)
+                ).stream().findAny();
     }
 
     @Override

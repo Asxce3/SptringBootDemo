@@ -2,23 +2,28 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.RestaurantRating;
-import com.example.demo.repository.DAO.RestaurantDAO;
+import com.example.demo.repository.DAO.postgres.RestaurantDAOImpl;
+import com.example.demo.repository.DAO.postgres.RestaurantRatingDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
 public class RestaurantRepository {
     @Autowired
-    private RestaurantDAO restaurantDAO;
+    private RestaurantDAOImpl restaurantDAO;
+
+    @Autowired
+    RestaurantRatingDAOImpl restaurantRatingDAO;
 
     public ResponseEntity<?> getRestaurants(){
         try {
-            List<Restaurant> restaurants = restaurantDAO.getRestaurants();
+            List<Restaurant> restaurants = restaurantDAO.getMany();
             return ResponseEntity.status(200).body(restaurants);
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -34,26 +39,8 @@ public class RestaurantRepository {
 
     public ResponseEntity<?> getRestaurant(UUID id) {
         try {
-            Restaurant restaurant = restaurantDAO.getRestaurant(id);
-            return ResponseEntity.status(200).body(restaurant);
-
-        } catch(CannotGetJdbcConnectionException e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(e.getMessage());
-
-        }  catch (Exception e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
-
-    }
-
-    public ResponseEntity<?> getRatingById(UUID restaurantId) {
-        try {
-            RestaurantRating rating = restaurantDAO.getRatingById(restaurantId);
-            return ResponseEntity.status(200).body(rating);
+            Optional<Restaurant> optRestaurant = restaurantDAO.getOne(id);
+            return ResponseEntity.status(200).body(optRestaurant.get());
 
         } catch(CannotGetJdbcConnectionException e) {
 
@@ -70,7 +57,7 @@ public class RestaurantRepository {
 
     public ResponseEntity<?> createRestaurant(Restaurant restaurant) {
         try {
-            restaurantDAO.createRestaurant(restaurant);
+            restaurantDAO.create(restaurant);
             return ResponseEntity.status(201).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -88,7 +75,7 @@ public class RestaurantRepository {
 
     public ResponseEntity<?> updateRestaurant(UUID id, Restaurant restaurant) {
         try {
-            restaurantDAO.updateRestaurant(id, restaurant);
+            restaurantDAO.update(id, restaurant);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -103,29 +90,45 @@ public class RestaurantRepository {
         }
 
     }
-
-    public ResponseEntity<?> updateRatingRestaurant(RestaurantRating rating) {
-        try {
-            restaurantDAO.updateRatingRestaurant(rating);
-            return ResponseEntity.status(200).build();
-
-        } catch(CannotGetJdbcConnectionException e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(e.getMessage());
-
-        }  catch (Exception e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
-
-    }
-
 
     public ResponseEntity<?> deleteRestaurant(UUID id) {
         try {
-            restaurantDAO.deleteRestaurant(id);
+            restaurantDAO.delete(id);
+            return ResponseEntity.status(200).build();
+
+        } catch(CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }  catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    public ResponseEntity<?> getRatingByRestaurantId(UUID restaurantId) {
+        try {
+            Optional<RestaurantRating> optRating = restaurantRatingDAO.getRestaurantById(restaurantId);
+            return ResponseEntity.status(200).body(optRating.get());
+
+        } catch(CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }  catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+
+    }
+
+    public ResponseEntity<?> updateRatingRestaurant(UUID id,  RestaurantRating rating) {
+        try {
+            restaurantRatingDAO.update(id, rating);
             return ResponseEntity.status(200).build();
 
         } catch(CannotGetJdbcConnectionException e) {
@@ -140,6 +143,7 @@ public class RestaurantRepository {
         }
 
     }
+
 }
 
 

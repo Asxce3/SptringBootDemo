@@ -9,13 +9,14 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
 @Component
 public class UserRepository {
     @Autowired
-    ObjectDAO<User> userDAO;
+    UserDAOImpl userDAO;
 
     public ResponseEntity<?> getUsers(){
         try {
@@ -35,8 +36,8 @@ public class UserRepository {
 
     public ResponseEntity<?> getUser(UUID id) {
         try {
-            User user = userDAO.getOne(id);
-            return ResponseEntity.status(200).body(user);
+            Optional<User> user = userDAO.getOne(id);
+            return ResponseEntity.status(200).body(user.get());
 
         } catch(CannotGetJdbcConnectionException e) {
 

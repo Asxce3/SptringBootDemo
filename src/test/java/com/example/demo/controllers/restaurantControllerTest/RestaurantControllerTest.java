@@ -57,4 +57,5 @@ public class RestaurantControllerTest {
 
         mockMvc.perform(delete("/restaurant/delete").param("id", id)).andExpect(status().isOk());
     }
+
 }

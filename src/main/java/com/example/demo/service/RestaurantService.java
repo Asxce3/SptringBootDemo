@@ -38,18 +38,17 @@ public class RestaurantService {
         return repository.updateRestaurant(id, restaurant);
     }
 
-    public ResponseEntity<?> updateRatingRestaurant(UUID id, int score) {
+    public void updateRatingRestaurant(UUID restaurantId, int score) {
         try {
 
-            RestaurantRating rating = (RestaurantRating) repository.getRatingById(id).getBody();
-
+            RestaurantRating rating = (RestaurantRating) repository.getRatingByRestaurantId(restaurantId).getBody();
             restaurantUtils.setRating(rating, score);
 
-            return repository.updateRatingRestaurant(rating);
+            repository.updateRatingRestaurant(rating.getId(), rating);
 
         }   catch (Exception e) {
             e.printStackTrace();
-            return null;
+
         }
 
     }

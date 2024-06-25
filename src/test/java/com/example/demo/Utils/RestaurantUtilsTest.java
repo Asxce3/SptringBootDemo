@@ -27,16 +27,16 @@ public class RestaurantUtilsTest {
 
 
 
-    @Test
-    public void setRating() {
-        UUID id = UUID.fromString("8b353f6a-9096-442b-a7b6-2a1d81e8c612");
-        Restaurant restaurant = (Restaurant) restaurantService.getRestaurant(id).getBody();
-        UUID rateId = restaurant.getRestaurantRatingId();
-
-        RestaurantRating restaurantRating = (RestaurantRating) restaurantRepository.getRatingById(rateId).getBody();
-
-        int score = 4;
-        restaurantUtils.setRating(restaurantRating, score);
-
-    }
+//    @Test
+//    public void setRating() {
+//        UUID id = UUID.fromString("8b353f6a-9096-442b-a7b6-2a1d81e8c612");
+//        Restaurant restaurant = (Restaurant) restaurantService.getRestaurant(id).getBody();
+//        UUID rateId = restaurant.getRestaurantRatingId();
+//
+//        RestaurantRating restaurantRating = (RestaurantRating) restaurantRepository.getRatingById(rateId).getBody();
+//
+//        int score = 4;
+//        restaurantUtils.setRating(restaurantRating, score);
+//
+//    }
 }

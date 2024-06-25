@@ -26,6 +26,10 @@ public class CommentService {
         return commentRepository.getComments();
     }
 
+    public ResponseEntity<?> getComment(UUID id) {
+        return commentRepository.getComment(id);
+    }
+
     public ResponseEntity<?> createComment(Comment comment) {
         if(commentUtils.checkScore(comment.getScore())) {
 

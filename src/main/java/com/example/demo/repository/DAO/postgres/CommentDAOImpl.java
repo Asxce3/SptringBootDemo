@@ -11,10 +11,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class CommentDAOImpl implements ObjectDAO<Comment>, {
+public class CommentDAOImpl implements ObjectDAO<Comment>{
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -27,12 +28,11 @@ public class CommentDAOImpl implements ObjectDAO<Comment>, {
     }
 
     @Override
-    public Comment getOne(UUID id) throws Exception{
-        Comment comment = jdbcTemplate.query
+    public Optional<Comment> getOne(UUID id) throws Exception{
+        return jdbcTemplate.query
                 ("SELECT * FROM comment WHERE id = ?",
                         new Object[]{id},
-                        new BeanPropertyRowMapper<>(Comment.class)).stream().findAny().orElse(null);
-        return comment;
+                        new BeanPropertyRowMapper<>(Comment.class)).stream().findAny();
     }
 
     @Override

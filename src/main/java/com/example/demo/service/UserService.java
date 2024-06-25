@@ -27,7 +27,6 @@ public class UserService {
     }
 
     public ResponseEntity<?> getUser(UUID id) {
-
         return repository.getUser(id);
 
     }

@@ -20,6 +20,12 @@ public class CommentController {
         return commentService.getComments();
     }
 
+    @GetMapping("/get-one")
+    public ResponseEntity<?> getOne(@RequestParam UUID id){
+        return commentService.getComment(id);
+    }
+
+
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody() Comment comment){
         return commentService.createComment(comment);
