@@ -27,6 +27,14 @@ public class CommentDAOImpl implements ObjectDAO<Comment>{
         return comments;
     }
 
+    public List<Comment> getManyByRestaurantId(UUID restaurant_id) {
+        List<Comment> comments = jdbcTemplate.query
+                ("SELECT score FROM comment WHERE restaurant_id = ?",
+                        new Object[]{restaurant_id},
+                        new BeanPropertyRowMapper<>(Comment.class));
+        return comments;
+    }
+
     @Override
     public Optional<Comment> getOne(UUID id) throws Exception{
         return jdbcTemplate.query

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,11 +38,30 @@ public class CommentRepository {
         }
     }
 
+    public ResponseEntity<?> getCommentsByRestaurantId(UUID restaurantId) {
+
+        try {
+            List<Comment> comments = commentDAO.getManyByRestaurantId(restaurantId);
+            return ResponseEntity.status(200).body(comments);
+
+        }   catch (CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }   catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
     public ResponseEntity<?> getComment(UUID id) {
 
         try {
-            Optional<Comment> comments = commentDAO.getOne(id);
-            return ResponseEntity.status(200).body(comments.get());
+            Optional<Comment> comment = commentDAO.getOne(id);
+//            return comment.orElseThrow(() -> new NoSuchElementException(""));
+            return ResponseEntity.status(200).body(comment.get());
 
         }   catch (CannotGetJdbcConnectionException e) {
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLOutput;
 import java.util.UUID;
 
 
@@ -38,6 +37,10 @@ public class RestaurantService {
         return repository.updateRestaurant(id, restaurant);
     }
 
+    public ResponseEntity<?> deleteRestaurant(UUID id) {
+        return repository.deleteRestaurant(id);
+    }
+
     public void updateRatingRestaurant(UUID restaurantId, int score) {
         try {
 
@@ -53,8 +56,21 @@ public class RestaurantService {
 
     }
 
-    public ResponseEntity<?> deleteRestaurant(UUID id) {
-        return repository.deleteRestaurant(id);
+    public void recalculateRating(UUID restaurantId, int score, int sumScore) {
+        try {
+            RestaurantRating rating = (RestaurantRating) repository.getRatingByRestaurantId(restaurantId).getBody();
+
+            restaurantUtils.recalculateRating(rating, score, sumScore);
+
+            repository.updateRatingRestaurant(rating.getId(), rating);
+
+        }   catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
     }
+
+
 
 }

@@ -17,4 +17,16 @@ public class RestaurantUtils {
         rating.setCountRatings(count);
 
     }
+
+    public void recalculateRating(RestaurantRating rating, int score, int sumScore) {
+
+        int countRatings = rating.getCountRatings();
+        int countDeleteComment = 1;
+
+        int newRating = (sumScore - score) / countRatings;
+
+        rating.setRating(newRating);
+        rating.setCountRatings(countRatings - countDeleteComment);
+
+    }
 }

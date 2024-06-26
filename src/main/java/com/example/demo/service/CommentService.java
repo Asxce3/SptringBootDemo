@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -55,7 +56,18 @@ public class CommentService {
     }
 
     public ResponseEntity<?> deleteComment(UUID id) {
+        Comment comment = (Comment) getComment(id).getBody();
+        UUID restaurantId = comment.getRestaurantId();
+
+        List<Comment> comments = (List<Comment>) commentRepository.getCommentsByRestaurantId(restaurantId).getBody();
+
+        int sumScore = comments.stream().mapToInt(Comment::getScore).sum() + 5;
+
+        restaurantService.recalculateRating(restaurantId, comment.getScore(), sumScore);
+
         return commentRepository.deleteComment(id);
+
+
     }
 
     public ResponseEntity<?> deleteCommentByUserID(UUID userId) {

@@ -51,7 +51,7 @@ public class RestaurantRatingDAOImpl implements ObjectDAO<RestaurantRating> {
 
     @Override
     public void delete(UUID id) throws Exception {
-        int i = jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
+        int i = jdbcTemplate.update("DELETE FROM restaurant_rating WHERE id = ?", id);
         if (i != 1) {
             throw new Exception("Restaurant rating not found");
         }

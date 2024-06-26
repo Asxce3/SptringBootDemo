@@ -30,18 +30,16 @@ public class CommentControllerTest {
 
         String userId = "e1322807-e5c6-45bb-bf9d-89f84b5b745c";
 //        String userId = "c8ae8526-07a5-4b02-93b1-b2e280c48441";
-//        String userId = "c7141287-9ca3-4b02-b00f-f40158be23f5";
 
 //    ОШИБКА ПРИ ВВОДЕ НЕСУЩЕТСВУЮЩЕГО РЕСТОРАНА !!!!!!
-//        Нерпавильно считает рейтинг !!!!!
-        String restaurantId = "8b353f6a-9096-442b-a7b6-2a1d81e8c612";
+        String restaurantId = "1e2974a3-ce51-4470-a5d7-1c0cf9f05f9f";
 
-        String comment = "Отлично";
-//        String comment = "Хорошо";
+//        String comment = "Отлично";
+        String comment = "Хорошо";
 //        String comment = "Паршиво";
 
-        String score = "5";
-//        String score = "4";
+//        String score = "5";
+        String score = "4";
 //        String score = "3";
 
 
