@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Comment;
-import com.example.demo.repository.DAO.ObjectDAO;
 import com.example.demo.repository.DAO.postgres.CommentDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,11 +58,11 @@ public class CommentRepository {
     public ResponseEntity<?> getComment(UUID id) {
 
         try {
-            Optional<Comment> comment = commentDAO.getOne(id);
-//            return comment.orElseThrow(() -> new NoSuchElementException(""));
-            return ResponseEntity.status(200).body(comment.get());
+            Optional<Comment> optComment = commentDAO.getOne(id);
+            Comment comment = optComment.orElseThrow(() -> new NoSuchElementException("Comment not found"));
+            return ResponseEntity.status(200).body(comment);
 
-        }   catch (CannotGetJdbcConnectionException e) {
+        }  catch (CannotGetJdbcConnectionException e) {
 
             e.printStackTrace();
             return ResponseEntity.status(500).body(e.getMessage());

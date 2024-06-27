@@ -55,7 +55,7 @@ public class CommentService {
         return ResponseEntity.badRequest().body("Данные введены не корректно");
     }
 
-    public ResponseEntity<?> deleteComment(UUID id) {
+    public ResponseEntity<?> deleteComment(UUID id){
         Comment comment = (Comment) getComment(id).getBody();
         UUID restaurantId = comment.getRestaurantId();
 
@@ -66,7 +66,6 @@ public class CommentService {
         restaurantService.recalculateRating(restaurantId, comment.getScore(), sumScore);
 
         return commentRepository.deleteComment(id);
-
 
     }
 
