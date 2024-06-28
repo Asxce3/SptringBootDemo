@@ -5,6 +5,7 @@ import com.example.demo.model.RestaurantRating;
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.service.restaurantUtils.RestaurantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,8 @@ import java.util.UUID;
 
 @Component
 public class RestaurantService {
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private RestaurantRepository repository;
@@ -38,6 +41,11 @@ public class RestaurantService {
     }
 
     public ResponseEntity<?> deleteRestaurant(UUID id) {
+        RestaurantRating restaurantRating = (RestaurantRating) repository.getRatingByRestaurantId(id).getBody();
+        repository.deleteRestaurantRating(restaurantRating.getId());
+
+        commentService.deleteCommentByRestaurantId(id);
+
         return repository.deleteRestaurant(id);
     }
 

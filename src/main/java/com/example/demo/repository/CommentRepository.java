@@ -143,5 +143,23 @@ public class CommentRepository {
         }
     }
 
+    public ResponseEntity<?> deleteCommentByRestaurantId(UUID id) {
+
+        try {
+            commentDAO.deleteCommentByRestaurantId(id);
+            return ResponseEntity.status(200).build();
+
+        }   catch (CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        }   catch (Exception e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
 
 }

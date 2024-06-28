@@ -73,6 +73,10 @@ public class CommentService {
         return commentRepository.deleteCommentByUserId(userId);
     }
 
+    public ResponseEntity<?> deleteCommentByRestaurantId(UUID restaurantId) {
+        return commentRepository.deleteCommentByRestaurantId(restaurantId);
+    }
+
 
 
 }

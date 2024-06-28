@@ -126,6 +126,24 @@ public class RestaurantRepository {
 
     }
 
+    public ResponseEntity<?> deleteRestaurantRating(UUID restaurantRatingId) {
+        try {
+            restaurantRatingDAO.delete(restaurantRatingId);
+            return ResponseEntity.status(200).build();
+
+        } catch(CannotGetJdbcConnectionException e) {
+
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+
+
     public ResponseEntity<?> updateRatingRestaurant(UUID id,  RestaurantRating rating) {
         try {
             restaurantRatingDAO.update(id, rating);

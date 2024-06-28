@@ -53,7 +53,7 @@ public class RestaurantControllerTest {
 
     @Test
     public void deleteTest() throws Exception {
-        String id = "66514037-41b2-4237-b17c-be1b845bb58d";
+        String id = "1e2974a3-ce51-4470-a5d7-1c0cf9f05f9f";
 
         mockMvc.perform(delete("/restaurant/delete").param("id", id)).andExpect(status().isOk());
     }

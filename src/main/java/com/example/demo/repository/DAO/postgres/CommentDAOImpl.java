@@ -94,5 +94,13 @@ public class CommentDAOImpl implements ObjectDAO<Comment>{
         }
     }
 
+    public void deleteCommentByRestaurantId(UUID restaurantId) throws Exception {
+        int i = jdbcTemplate.update("DELETE FROM comment WHERE restaurant_id = ?", restaurantId);
+
+        if (i != 1) {
+            throw new Exception("Restaurant not found");
+        }
+    }
+
 
 }
