@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Comment;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.commentUtils.CommentUtils;
+import com.example.demo.service.commentUtils.RecalculateRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,6 @@ import java.util.UUID;
 
 @Component
 public class CommentService {
-
-    @Autowired
-    RestaurantService restaurantService;
 
     @Autowired
     CommentRepository commentRepository;
@@ -33,16 +31,8 @@ public class CommentService {
 
     public ResponseEntity<?> createComment(Comment comment) {
         if(commentUtils.checkScore(comment.getScore())) {
-
             UUID restaurantId = comment.getRestaurantId();
-            ResponseEntity<?> response = commentRepository.createComment(comment);
-
-            HttpStatusCode code = response.getStatusCode();
-
-            if(code.is2xxSuccessful()) {
-                restaurantService.updateRatingRestaurant(restaurantId, comment.getScore());
-            }
-            return response;
+            return commentRepository.createComment(comment);
         }
         return ResponseEntity.badRequest().body("Данные введены не корректно");
 
@@ -63,10 +53,15 @@ public class CommentService {
 
         int sumScore = comments.stream().mapToInt(Comment::getScore).sum() + 5;
 
-        restaurantService.recalculateRating(restaurantId, comment.getScore(), sumScore);
+        RecalculateRate recalculateRate = new RecalculateRate(restaurantId, comment.getScore(), sumScore);
+        System.out.println(recalculateRate);
 
-        return commentRepository.deleteComment(id);
+        HttpStatusCode code = commentRepository.deleteComment(id).getStatusCode();
 
+        if(code.is2xxSuccessful()){
+            return ResponseEntity.ok().body(recalculateRate);
+        }
+        return ResponseEntity.status(code).build();
     }
 
     public ResponseEntity<?> deleteCommentByUserID(UUID userId) {

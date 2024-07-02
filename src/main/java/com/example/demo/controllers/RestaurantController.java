@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.model.Restaurant;
+import com.example.demo.service.CommentRestaurantService;
 import com.example.demo.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    CommentRestaurantService commentRestaurantService;
 
     @GetMapping("/get-many")
     public ResponseEntity<?> getMany(){
@@ -37,7 +41,7 @@ public class RestaurantController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@RequestParam() UUID id){
-        return restaurantService.deleteRestaurant(id);
+        return commentRestaurantService.deleteRestaurant(id);
     }
 
 }
