@@ -37,24 +37,6 @@ public class CommentRepository {
         }
     }
 
-    public ResponseEntity<?> getCommentsByRestaurantId(UUID restaurantId) {
-
-        try {
-            List<Comment> comments = commentDAO.getManyByRestaurantId(restaurantId);
-            return ResponseEntity.status(200).body(comments);
-
-        }   catch (CannotGetJdbcConnectionException e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(e.getMessage());
-
-        }   catch (Exception e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-    }
-
     public ResponseEntity<?> getComment(UUID id) {
 
         try {
@@ -111,42 +93,6 @@ public class CommentRepository {
 
         try {
             commentDAO.delete(id);
-            return ResponseEntity.status(200).build();
-
-        }   catch (CannotGetJdbcConnectionException e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(e.getMessage());
-
-        }   catch (Exception e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-    }
-
-    public ResponseEntity<?> deleteCommentByUserId(UUID id) {
-
-        try {
-            commentDAO.deleteCommentByUserId(id);
-            return ResponseEntity.status(200).build();
-
-        }   catch (CannotGetJdbcConnectionException e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(e.getMessage());
-
-        }   catch (Exception e) {
-
-            e.printStackTrace();
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-    }
-
-    public ResponseEntity<?> deleteCommentByRestaurantId(UUID id) {
-
-        try {
-            commentDAO.deleteCommentByRestaurantId(id);
             return ResponseEntity.status(200).build();
 
         }   catch (CannotGetJdbcConnectionException e) {

@@ -19,8 +19,6 @@ public class UserService {
     @Autowired
     UserUtils userUtils;
 
-    @Autowired
-    CommentService commentService;
 
     public ResponseEntity<?> getUsers() {
         return repository.getUsers();
@@ -69,10 +67,6 @@ public class UserService {
             if (getUser.getStatusCode().is4xxClientError()) {
                 return getUser;
             }
-            User user = (User) getUser.getBody();
-            UUID userId = user.getId();
-
-            commentService.deleteCommentByUserID(userId);
 
             return repository.deleteUser(id);
     }

@@ -2,7 +2,6 @@ package com.example.demo.repository.DAO.postgres;
 
 import com.example.demo.model.Restaurant;
 import com.example.demo.repository.DAO.ObjectDAO;
-import com.example.demo.repository.DAO.UUIDGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,16 +57,8 @@ public class RestaurantDAOImpl implements ObjectDAO<Restaurant> {
 
     @Override
     public void create(Restaurant restaurant) throws Exception {
-
-        UUID restaurantId = UUIDGenerate.generateID();
-
-        jdbcTemplate.update("INSERT INTO restaurant VALUES(?, ?)",
-                restaurantId,
+        jdbcTemplate.update("INSERT INTO restaurant VALUES(gen_random_uuid(), ?)",
                 restaurant.getName());
-
-        jdbcTemplate.update("INSERT INTO restaurant_rating VALUES(?, ?)",
-                UUIDGenerate.generateID(), restaurantId);
-
     }
 
     @Override

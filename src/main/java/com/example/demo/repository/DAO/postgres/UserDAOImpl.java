@@ -2,10 +2,10 @@ package com.example.demo.repository.DAO.postgres;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.DAO.ObjectDAO;
-import com.example.demo.repository.DAO.UUIDGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.stereotype.Component;
 
 
@@ -36,8 +36,7 @@ public class UserDAOImpl implements ObjectDAO<User> {
     @Override
     public void create(User user) throws Exception{
         try {
-            jdbcTemplate.update("INSERT INTO Person VALUES(?, ?, ?, ?, ?, ?)",
-                    UUIDGenerate.generateID(),
+            jdbcTemplate.update("INSERT INTO Person VALUES(gen_random_uuid(), ?, ?, ?, ?, ?)",
                     user.getUsername(),
                     user.getPassword(),
                     user.getEmail(),

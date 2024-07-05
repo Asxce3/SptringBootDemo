@@ -45,14 +45,4 @@ public class CommentService {
         return commentRepository.deleteComment(id);
     }
 
-    public ResponseEntity<?> deleteCommentByUserID(UUID userId) {
-        return commentRepository.deleteCommentByUserId(userId);
-    }
-
-    public ResponseEntity<?> deleteCommentByRestaurantId(UUID restaurantId) {
-        return commentRepository.deleteCommentByRestaurantId(restaurantId);
-    }
-
-
-
 }

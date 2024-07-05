@@ -1,12 +1,10 @@
 package com.example.demo.service.userUtils;
 
 import com.example.demo.model.User;
-import com.example.demo.model.UserEdit;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

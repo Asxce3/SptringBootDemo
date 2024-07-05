@@ -2,7 +2,6 @@ package com.example.demo.repository.DAO.postgres;
 
 import com.example.demo.model.Comment;
 import com.example.demo.repository.DAO.ObjectDAO;
-import com.example.demo.repository.DAO.UUIDGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -46,8 +45,7 @@ public class CommentDAOImpl implements ObjectDAO<Comment>{
     @Override
     public void create(Comment comment) throws Exception{
         try {
-            jdbcTemplate.update("INSERT INTO comment VALUES (?, ?, ?, ?, ?)",
-                    UUIDGenerate.generateID(),
+            jdbcTemplate.update("INSERT INTO comment VALUES (gen_random_uuid(), ?, ?, ?, ?)",
                     comment.getPersonId(),
                     comment.getRestaurantId(),
                     comment.getComment(),

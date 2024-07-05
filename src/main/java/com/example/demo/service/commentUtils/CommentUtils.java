@@ -2,7 +2,6 @@ package com.example.demo.service.commentUtils;
 
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 @Component
 public class CommentUtils {
